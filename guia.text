@@ -1,0 +1,23 @@
+Creamos todas las carpetas
+*config
+*controller
+*middlewares
+*moduls
+*routers
+
+iniciamos npm init -y
+creamos index.js
+instalamos "npm i express mongoose bcrypt body-parser dotenv"
+configurmos el package.json para que tenga lo siguiente.
+    "start":"node index.js",
+    "server":"nodemon index.js"
+e instalamos "npm i --sabe-dev nodemon"
+creamos la conexion al servidor en el puerdo 4000 e enviamos una consulta para verificar la respuesta.
+
+creamos dbConnect.js
+
+
+instalamos "npm i exprees-async-handler"
+
+para encriptar el password instalamos "npm i bcrypt"
+
