@@ -1,8 +1,7 @@
 const e = require('express');
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
-const { generateToken } = require('../config/jwrToken');
-const { get } = require('mongoose');
+const { generateToken } = require('../config/jwtToken');
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
     const findUser = await User.findOne({email: email});
@@ -37,10 +36,11 @@ const loginUserCtrl = asyncHandler (async(req, res) => {
 //Actualizar Usuario
 
 const updatedUser = asyncHandler(async(req, res) =>{
-    const { id } = req.params;
+    console.log();
+    const { _id } = req.user;
     try {
         const updatedUser = await User.findByIdAndUpdate(
-            id,
+            _id,
             {
                 firstname: req?.body.firstname,
                 lastname: req?.body.lastname,
@@ -100,5 +100,44 @@ const deleteaUser = asyncHandler(async(req, res) =>{
     }
 });
 
+const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+    const block = User.findByIdAndUpdate(
+        id, 
+        {
+        isBlocked: true,
+        },
+        {
+         new: true,
+        }
+    );
+    res.json({
+        message: "Usuario Bloqueado"
+    })
+    } catch(error) {
+      throw new Error(error);
+    }
+});
+const unblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+    const unblock = User.findByIdAndUpdate(
+        id, 
+        {
+        isBlocked: false,
+        },
+        {
+         new: true,
+        }
+    );
+    res.json({
+        message: "Usuario Desbloqueado"
+    })
+    } catch(error) {
+      throw new Error(error);
+    }
+});
 
-module.exports = {createUser, loginUserCtrl, getallUser, getaUser, deleteaUser, updatedUser};
+
+module.exports = {createUser, loginUserCtrl, getallUser, getaUser, deleteaUser, updatedUser, blockUser, unblockUser};
